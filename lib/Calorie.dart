@@ -1,9 +1,14 @@
+import 'package:assignment_fitelo/DataProcessing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 
 class CalorieIntake extends StatefulWidget {
-  const CalorieIntake({super.key});
+  final VoidCallback onNext; 
+  final VoidCallback onPrevious;
+  const CalorieIntake({super.key,
+  required this.onNext, required this.onPrevious
+  });
 
   @override
   State<CalorieIntake> createState() => _CalorieIntakeState();
@@ -11,15 +16,25 @@ class CalorieIntake extends StatefulWidget {
 
 class _CalorieIntakeState extends State<CalorieIntake> {
   double _width = 0;
+  Dataprocessing _data = Dataprocessing();
+  double height =0;
+  int show =0;
 
   @override
   void initState() {
     // TODO: implement initState
-    Future.delayed(Duration(seconds: 1), () {
+    Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
         _width = 23;
+        height =140;
+      });
+      Future.delayed(Duration(milliseconds:1400 ),(){
+        setState(() {
+         show=1; 
+        });
       });
     });
+   
     super.initState();
   }
 
@@ -30,8 +45,25 @@ class _CalorieIntakeState extends State<CalorieIntake> {
     // ChartData('Others', 52, Color.fromRGBO(255, 189, 57, 1)),
   ];
 
+
+
+  double? carbs;
+  double? protein;
+  double? fats;
+ int? dailyCalorie;
+ double? MyWeight;
+ double? duration;
+
   @override
   Widget build(BuildContext context) {
+   _data.MacroSplit();
+   carbs = _data.Macro[0];
+   protein = _data.Macro[1];
+   fats = _data.Macro[2];
+   dailyCalorie = _data.DailyCalorie.toInt();
+   MyWeight= Dataprocessing.MyWeight;
+   duration= Dataprocessing.Duration;
+   
   double  ScreenWidth = MediaQuery.of(context).size.width;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -85,11 +117,11 @@ class _CalorieIntakeState extends State<CalorieIntake> {
             ),
             SizedBox(height: 50),
             Text(
-              'Awesome 😎! Here\'s Your Calorie Intake - with\n your \"7Kg in 3 months\" goal, this personalized\n daily calorie guide keeps you on track! ',
+              'Awesome 😎! Here\'s Your Calorie Intake - with\n your \"$MyWeight Kg in $duration months\" goal, this personalized\n daily calorie guide keeps you on track! ',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
                 // height: 1.5,
-                fontSize: 15,
+                fontSize: 14,
                 fontWeight: FontWeight.w700,
                 color: const Color.fromARGB(209, 0, 0, 0),
               ),
@@ -113,7 +145,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         style: TextStyle(
                           fontSize: 30
                         ),),
-                        Text('1,800',
+                        Text('$dailyCalorie',
                         style: GoogleFonts.inter(
                           fontSize: 40,
                           fontWeight: FontWeight.w600
@@ -153,9 +185,11 @@ class _CalorieIntakeState extends State<CalorieIntake> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
+                  AnimatedContainer(
+                    
+                    duration: Duration(seconds: 1),
                     padding: EdgeInsets.all(20),
-                    height: 140,
+                    height: height,
                     width: 120,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 240, 250, 250),
@@ -165,7 +199,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         color: const Color.fromARGB(68, 158, 158, 158)
                       )
                     ),
-                    child: Column(
+                    child:show ==0?SizedBox(): Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -174,7 +208,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                           child: Text('🍚',),
                         ),
                         SizedBox(height: 5,),
-                        Text('185g',
+                        Text('$carbs g',
                         style: GoogleFonts.roboto(
                           
                           fontSize: 22,
@@ -193,8 +227,9 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 140,
+                  AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    height: height,
                     width: 120,
                      decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 245, 250, 250),
@@ -204,7 +239,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         color: const Color.fromARGB(75, 158, 158, 158)
                       )
                     ),
-                    child:  Column(
+                    child: show==0?SizedBox(): Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -217,7 +252,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                           ),
                         ),
                         SizedBox(height: 5,),
-                        Text('135g',
+                        Text('$protein g',
                         style: GoogleFonts.roboto(
                           
                           fontSize: 22,
@@ -236,8 +271,9 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                       ],
                     ),
                   ),
-                  Container(
-                    height: 140,
+                  AnimatedContainer(
+                    duration: Duration(seconds: 1),
+                    height: height,
                     width: 120,
                      decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 250, 245, 230),
@@ -247,7 +283,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         color: const Color.fromARGB(69, 158, 158, 158)
                       )
                     ),
-                    child:  Column(
+                    child: show==0?SizedBox() : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -260,7 +296,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                           ),
                         ),
                         SizedBox(height: 5,),
-                        Text('60g',
+                        Text('$fats g',
                         style: GoogleFonts.roboto(
                           
                           fontSize: 22,
@@ -291,40 +327,46 @@ class _CalorieIntakeState extends State<CalorieIntake> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    width: 1.5,
-                    color: const Color.fromARGB(255, 240, 145, 90),
+              GestureDetector(
+                onTap: widget.onPrevious,
+                child: Container(
+                  
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      width: 1.5,
+                      color: const Color.fromARGB(255, 240, 145, 90),
+                    ),
+                    borderRadius: BorderRadius.circular(10)
                   ),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: const Color.fromARGB(255, 240, 145, 90),
-                  size: 30,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: const Color.fromARGB(255, 240, 145, 90),
+                    size: 30,
+                  ),
                 ),
               ),
-              Container(
-                height: 50,
-                width: ScreenWidth*.7,
-               
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                     color: const Color.fromARGB(255, 240, 145, 90),
-                ),
-                child: Center(
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
+              GestureDetector(
+                onTap: widget.onNext,
+                child: Container(
+                  height: 50,
+                  width: ScreenWidth*.7,
+                 
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                       color: const Color.fromARGB(255, 240, 145, 90),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20
+                      ),
+                
                     ),
-
                   ),
                 ),
               )

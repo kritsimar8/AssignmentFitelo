@@ -1,8 +1,14 @@
+import 'package:assignment_fitelo/DataProcessing.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Timeline extends StatefulWidget {
-  const Timeline({super.key});
+
+  final VoidCallback onNext; 
+  final VoidCallback onPrevious;
+  
+
+  const Timeline({super.key, required this.onNext, required this.onPrevious});
 
   @override
   State<Timeline> createState() => _TimelineState();
@@ -32,6 +38,8 @@ class _TimelineState extends State<Timeline> {
     return sliderValue>0 &&sliderValue<3 ?6: sliderValue>3 &&sliderValue<8? 3: 1.5;
   }
 
+  Dataprocessing _data = Dataprocessing();
+
 
   @override
   Widget build(BuildContext context) {
@@ -39,9 +47,11 @@ class _TimelineState extends State<Timeline> {
     double ScreenWidth = MediaQuery.of(context).size.width;
     double Mymonth= Month(sliderValue);
 
+  
 
 
-    print(sliderValue);
+
+    // print(sliderValue);
     return Scaffold(
       backgroundColor: Colors.white,
       body: Padding(
@@ -96,10 +106,10 @@ class _TimelineState extends State<Timeline> {
             ),
             SizedBox(height: 50,),
             Text(
-              'Great ! We\'ve calculated a safe, steady \ntimeline-how soon do you want to reach\n your milestone?',
+              'Great⏳ ! We\'ve calculated a safe, steady \ntimeline-how soon do you want to reach\n your milestone?',
               textAlign: TextAlign.center,
               style: GoogleFonts.inter(
-                fontSize: 17,
+                fontSize: 14,
                 fontWeight: FontWeight.w600,
                 color: Colors.black, 
 
@@ -228,40 +238,49 @@ class _TimelineState extends State<Timeline> {
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              Container(
-                
-                height: 50,
-                width: 50,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  border: Border.all(
-                    width: 1.5,
-                    color: const Color.fromARGB(255, 240, 145, 90),
+              GestureDetector(
+                onTap: widget.onPrevious,
+                child: Container(
+                  
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    border: Border.all(
+                      width: 1.5,
+                      color: const Color.fromARGB(255, 240, 145, 90),
+                    ),
+                    borderRadius: BorderRadius.circular(10)
                   ),
-                  borderRadius: BorderRadius.circular(10)
-                ),
-                child: Icon(
-                  Icons.arrow_back,
-                  color: const Color.fromARGB(255, 240, 145, 90),
-                  size: 30,
+                  child: Icon(
+                    Icons.arrow_back,
+                    color: const Color.fromARGB(255, 240, 145, 90),
+                    size: 30,
+                  ),
                 ),
               ),
-              Container(
-                height: 50,
-                width: ScreenWidth*.7,
-               
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                     color: const Color.fromARGB(255, 240, 145, 90),
-                ),
-                child: Center(
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
+              GestureDetector(
+                onTap:(){
+                  widget.onNext();
+                  Dataprocessing.UpdateDuration(Mymonth);
+                } ,
+                child: Container(
+                  height: 50,
+                  width: ScreenWidth*.7,
+                 
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                       color: const Color.fromARGB(255, 240, 145, 90),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20
+                      ),
+                
                     ),
-
                   ),
                 ),
               )

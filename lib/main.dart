@@ -2,7 +2,9 @@ import 'dart:async';
 import 'dart:math';
 
 import 'package:assignment_fitelo/Calorie.dart';
+import 'package:assignment_fitelo/DataProcessing.dart';
 import 'package:assignment_fitelo/extra.dart';
+import 'package:assignment_fitelo/homePage.dart';
 import 'package:assignment_fitelo/timeline.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -20,7 +22,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(title: 'Flutter Demo', 
-    home: CalorieIntake());
+    home: HomePage());
   }
 }
 
@@ -132,6 +134,15 @@ class _MyHomePageState extends State<MyHomePage>
 }
 
 class RotationDemo extends StatefulWidget {
+
+  final VoidCallback onNext;
+
+  const RotationDemo({
+    Key? key, 
+    required this. onNext,
+  }) : super(key:key);
+
+
   @override
   _RotationDemoState createState() => _RotationDemoState();
 }
@@ -142,7 +153,7 @@ class _RotationDemoState extends State<RotationDemo>
   double _previousRotation = 0.0;
   Offset? _center;
 
-
+  Dataprocessing _data = Dataprocessing();
   
 
 
@@ -270,6 +281,7 @@ double getCurrentDigit(double angle) {
 
   @override
   Widget build(BuildContext context) {
+    
     // print('${(_rotation * 180 / pi).toStringAsFixed(1)}°');
      double ScreenWidth = MediaQuery.of(context).size.width;
      double height = MediaQuery.of(context).size.height;
@@ -446,11 +458,12 @@ double getCurrentDigit(double angle) {
                       ),
                       SizedBox(height: 40),
                       Text(
-                        'Based on your height and weight, \nhere a goal crafted just for you.Ready to \nstart your journey?',
+                        'Based on your height and weight, \nhere a goal 🎯 crafted just for you. Ready to \nstart your journey?',
                         textAlign: TextAlign.center,
                         style: GoogleFonts.inter(
                           fontWeight: FontWeight.bold,
                           wordSpacing: 2,
+                          fontSize: 14,
                           color: const Color.fromARGB(185, 0, 0, 0),
                         ),
                       ),
@@ -516,32 +529,41 @@ double getCurrentDigit(double angle) {
                   color: Colors.white,
                   border: Border.all(
                     width: 1.5,
-                    color: const Color.fromARGB(255, 240, 145, 90),
+                    color: const Color.fromARGB(64, 0, 0, 0),
                   ),
                   borderRadius: BorderRadius.circular(10)
                 ),
                 child: Icon(
                   Icons.arrow_back,
-                  color: const Color.fromARGB(255, 240, 145, 90),
+                  color: const Color.fromARGB(78, 0, 0, 0),
                   size: 30,
                 ),
               ),
-              Container(
-                height: 50,
-                width: ScreenWidth*.7,
-               
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(10),
-                     color: const Color.fromARGB(255, 240, 145, 90),
-                ),
-                child: Center(
-                  child: Text(
-                    'Continue',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20
+              GestureDetector(
+                onTap: (){
+                  widget.onNext();
+                  Dataprocessing.UpdateWeight(MyWeight);
+                }
+                 
+                
+                ,
+                child: Container(
+                  height: 50,
+                  width: ScreenWidth*.7,
+                 
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(10),
+                       color: const Color.fromARGB(255, 240, 145, 90),
+                  ),
+                  child: Center(
+                    child: Text(
+                      'Continue',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 20
+                      ),
+                
                     ),
-
                   ),
                 ),
               )
@@ -656,7 +678,7 @@ class CustomClipPath extends CustomClipper<Path> {
     });
     @override 
     void paint(Canvas canvas , Size size){
-      print(option);
+      // print(option);
        double w = size.width;
     double h = size.height;
       final paint = Paint()
