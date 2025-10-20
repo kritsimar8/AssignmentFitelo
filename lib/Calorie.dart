@@ -28,21 +28,16 @@ class _CalorieIntakeState extends State<CalorieIntake> {
         _width = 23;
         height =140;
       });
-      Future.delayed(Duration(milliseconds:1400 ),(){
-        setState(() {
-         show=1; 
-        });
-      });
-    });
+     
+         });
    
     super.initState();
   }
 
   final List<ChartData> chartData = [
-    ChartData('David', 25, Color.fromRGBO(7, 202, 192, 1)),
-    ChartData('Steve', 38, Color.fromRGBO(32, 88, 209, 1)),
-    ChartData('Jack', 34, Color.fromRGBO(209, 171, 1, 1)),
-    // ChartData('Others', 52, Color.fromRGBO(255, 189, 57, 1)),
+    ChartData('Carbs', 45, Color.fromRGBO(7, 202, 192, 1)),
+    ChartData('Protein', 30, Color.fromRGBO(55, 110, 160, 1)),
+    ChartData('Fats', 25, Color.fromRGBO(225, 180, 71, 1)),
   ];
 
 
@@ -70,6 +65,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
       body: Padding(
         padding: const EdgeInsets.only(top: 60),
         child: Column(
+          // crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -185,11 +181,10 @@ class _CalorieIntakeState extends State<CalorieIntake> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  AnimatedContainer(
-                    
-                    duration: Duration(seconds: 1),
+                  Container(
+  
                     padding: EdgeInsets.all(20),
-                    height: height,
+                    height: 140,
                     width: 120,
                     decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 240, 250, 250),
@@ -199,7 +194,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         color: const Color.fromARGB(68, 158, 158, 158)
                       )
                     ),
-                    child:show ==0?SizedBox(): Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -227,9 +222,9 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                       ],
                     ),
                   ),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 1),
-                    height: height,
+                  Container(
+                    
+                    height: 140,
                     width: 120,
                      decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 245, 250, 250),
@@ -239,7 +234,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         color: const Color.fromARGB(75, 158, 158, 158)
                       )
                     ),
-                    child: show==0?SizedBox(): Column(
+                    child:  Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -271,9 +266,9 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                       ],
                     ),
                   ),
-                  AnimatedContainer(
-                    duration: Duration(seconds: 1),
-                    height: height,
+                  Container(
+               
+                    height: 140,
                     width: 120,
                      decoration: BoxDecoration(
                       color: const Color.fromARGB(255, 250, 245, 230),
@@ -283,7 +278,7 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                         color: const Color.fromARGB(69, 158, 158, 158)
                       )
                     ),
-                    child: show==0?SizedBox() : Column(
+                    child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         CircleAvatar(
@@ -318,7 +313,28 @@ class _CalorieIntakeState extends State<CalorieIntake> {
                 ],
               ),
             ),
+
+           
+
             Spacer(),
+             GestureDetector(
+              onTap: () {
+                  showDialog(context: context,
+               builder: (context)=> const CustomDialogWidget());
+              },
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                    Icon(Icons.tips_and_updates_outlined, color: Colors.orange,),
+                  // SizedBox(,),
+                  Text(
+                    ' Maths Behind this'
+                  ),
+                ],
+              ),
+                         ),
+           
+            SizedBox(height: 30,),
                 Container(
           padding: EdgeInsets.all(10),
           height: 90,
@@ -385,4 +401,97 @@ class ChartData {
   final String x;
   final double y;
   final Color color;
+}
+
+
+class CustomDialogWidget extends StatelessWidget {
+  const CustomDialogWidget({super.key});
+
+  @override 
+  Widget build(BuildContext context){
+    return Dialog(
+      child: Container(
+        decoration: BoxDecoration(color: Colors.white ,
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(
+          color: Colors.orange,
+          width: 4
+        )
+        
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(width: MediaQuery.of(context).size.width*.7,),
+            SizedBox(height: 10,),
+            Icon(Icons.question_mark_outlined, color: Colors.orange,size: 40,),
+            SizedBox(height: 10,),
+            Text('Calculation',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 30,
+            ),
+            ),
+            SizedBox(height: 30,),
+            Text('Maintainence calorie = 2200 kcal',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Energy per kg of fat: 7,700 kcal',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Total deficit needed = goalKg * 7700',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Days = months * 30.4 (use 30.4 avg)',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Daily deficit = total_deficit / days',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Daily calories = maintenance - daily_deficit',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Daily calories = maintenance - daily_deficit',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text('Carb 45%, Protein 30%, Fat 25%',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            Text(' Coversion into grams: grams:\n carbs ÷4, protein ÷4, fat ÷9',
+            style: GoogleFonts.inter(
+              color: Colors.orange,
+              fontSize: 14,
+            ),
+            ),
+            SizedBox(height: 50,)
+          ],
+        ),
+        
+      ),
+    );
+  }
 }

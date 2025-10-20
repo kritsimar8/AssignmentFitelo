@@ -1,6 +1,8 @@
 import 'package:assignment_fitelo/Calorie.dart';
 import 'package:assignment_fitelo/DataProcessing.dart';
+import 'package:assignment_fitelo/lastPage.dart';
 import 'package:assignment_fitelo/main.dart';
+import 'package:assignment_fitelo/rotation.dart';
 import 'package:assignment_fitelo/timeline.dart';
 import 'package:flutter/material.dart';
 
@@ -30,7 +32,7 @@ class _HomePageState extends State<HomePage> {
   }
   
   void _nextPage() {
-    if (_currentPage < 2) {
+    if (_currentPage < 3) {
       _pageController.animateToPage(
         _currentPage + 1,
         duration: const Duration(milliseconds: 700),
@@ -83,7 +85,11 @@ class _HomePageState extends State<HomePage> {
                 CalorieIntake(
                   onNext: _nextPage,
                   onPrevious: _previousPage,
-                )],
+                ),
+                Lastpage(
+                  onPrevious: _previousPage,
+                )
+                ],
             ),
           ),
         ],

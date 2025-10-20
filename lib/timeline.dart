@@ -22,7 +22,7 @@ class _TimelineState extends State<Timeline> {
   void initState() {
     // TODO: implement initState
 
-     Future.delayed(Duration(seconds: 1), () {
+     Future.delayed(Duration(milliseconds: 500), () {
       setState(() {
         _width = 23;
       });
